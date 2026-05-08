@@ -689,7 +689,7 @@ const days = [
       {time: "13:45", title: "✅ 太原→大同南（已购票）", desc: "两人乘火车从太原出发，13:45 → 15:50 抵达大同南", type: "sight"},
       {time: "傍晚-晚上", title: "大同古城游览", desc: "参观华严寺、五龙壁、善化寺等，感受北魏古都风情", type: "sight"},
       {time: "18:30-20:00", title: "晚餐推荐", desc: "大同古城内晚餐", type: "food", restaurant: "<strong>推荐：</strong>凤临阁 / 老大同饭庄", detail: "大同刀削面、浑源凉粉、黄糕"},
-      {time: "晚间", title: "大同住宿推荐（Day2-4）", desc: "建议住大同古城内或大西街附近，步行可达各景点", type: "hotel", restaurant: "<strong>推荐区域：</strong>大同古城内 / 大西街 / 大同南站附近<br><strong>参考：</strong>大同云中传统四合院 / 全季酒店（大同古城店）", detail: "古城内方便夜游，南站附近方便最后一天坐车"}
+      {time: "晚间", title: "✅ 大同宋阙民宿（已订）", desc: "Dyf 预订大同宋阙民宿，Day 2-4 共两晚，¥664.95", type: "hotel", restaurant: "<strong>✅ 已预订：</strong>大同宋阙民宿（Dyf 预订）· 两晚 ¥664.95", detail: "古城内特色民宿，步行可达华严寺等景点"}
     ]
   },
   {
@@ -815,7 +815,16 @@ const CAT_ICON  = { traffic:'🚄', hotel:'🏨', sight:'🏯', food:'🍜', sou
 const CAT_LABEL = { traffic:'交通', hotel:'酒店', sight:'景点门票', food:'餐食', souvenir:'纪念品' };
 const CAT_COLOR = { traffic:'cat-traffic', hotel:'cat-hotel', sight:'cat-sight', food:'cat-food', souvenir:'cat-souvenir' };
 
-let entries = JSON.parse(localStorage.getItem('shanxi_ledger') || '[]');
+let entries = JSON.parse(localStorage.getItem('shanxi_ledger') || 'null') || [
+  { id: 1, desc: 'Dyf 深圳北→太原南（跨夜火车）', amount: 0, cat: 'traffic', day: '行前', payer: 'Dyf' },
+  { id: 2, desc: 'Alo 临汾西→太原南', amount: 0, cat: 'traffic', day: 'Day 1', payer: 'Alo' },
+  { id: 3, desc: '太原南→平遥古城（两人）', amount: 0, cat: 'traffic', day: 'Day 1', payer: 'AA' },
+  { id: 4, desc: '平遥古城→太原南（两人）', amount: 0, cat: 'traffic', day: 'Day 1', payer: 'AA' },
+  { id: 5, desc: '山西饭店（太原，Alo预订）', amount: 0, cat: 'hotel', day: 'Day 1', payer: 'Alo' },
+  { id: 6, desc: '太原→大同南（两人）', amount: 0, cat: 'traffic', day: 'Day 2', payer: 'AA' },
+  { id: 7, desc: '大同宋阙民宿（两晚，Dyf预订）', amount: 664.95, cat: 'hotel', day: 'Day 2', payer: 'Dyf' },
+  { id: 8, desc: '大同南→北京北（两人）', amount: 0, cat: 'traffic', day: 'Day 4', payer: 'AA' },
+];
 
 function saveEntries() {
   localStorage.setItem('shanxi_ledger', JSON.stringify(entries));
