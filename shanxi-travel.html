@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山西之旅 — Alo & Dyf</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --amber-50: #FAEEDA; --amber-100: #FAC775; --amber-200: #EF9F27;
+    --amber-400: #BA7517; --amber-600: #854F0B; --amber-800: #633806;
+    --coral-50: #FAECE7; --coral-100: #F5C4B3; --coral-200: #F0997B;
+    --coral-400: #D85A30; --coral-600: #993C1D; --coral-800: #712B13;
+    --teal-50: #E1F5EE; --teal-100: #9FE1CB; --teal-200: #5DCAA5;
+    --teal-400: #1D9E75; --teal-600: #0F6E56; --teal-800: #085041;
+    --blue-50: #E6F1FB; --blue-100: #B5D4F4; --blue-400: #378ADD;
+    --blue-600: #185FA5; --blue-800: #0C447C;
+    --gray-50: #F1EFE8; --gray-100: #D3D1C7; --gray-200: #B4B2A9;
+    --gray-400: #888780; --gray-600: #5F5E5A; --gray-800: #444441;
+    --text-primary: #2C2C2A; --text-secondary: #5F5E5A; --text-hint: #888780;
+    --bg: #FAFAF8; --bg-card: #FFFFFF; --border: rgba(44,44,42,0.12);
+    --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px;
+    --font: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+  }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: var(--amber-800);
+    color: #fff;
+    padding: 56px 32px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-deco {
+    position: absolute; top: 0; right: 0; width: 320px; height: 100%;
+    opacity: 0.08;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: var(--amber-200);
+    color: var(--amber-800);
+    font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+    padding: 3px 10px; border-radius: 20px; margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-size: 32px; font-weight: 500; line-height: 1.2;
+    margin-bottom: 12px; letter-spacing: -0.02em;
+  }
+  .hero p { font-size: 14px; color: rgba(255,255,255,0.72); margin-bottom: 28px; }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .hero-pill {
+    background: rgba(255,255,255,0.12);
+    border: 0.5px solid rgba(255,255,255,0.24);
+    border-radius: 20px; padding: 5px 14px;
+    font-size: 12px; color: rgba(255,255,255,0.88);
+  }
+
+  /* ── Travellers ── */
+  .section { padding: 32px 24px; }
+  .section-title {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-hint);
+    margin-bottom: 16px;
+  }
+  .travellers { display: flex; gap: 12px; flex-wrap: wrap; }
+  .traveller-card {
+    background: var(--bg-card);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    display: flex; align-items: center; gap: 12px;
+    flex: 1; min-width: 160px;
+  }
+  .avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 500; flex-shrink: 0;
+  }
+  .avatar.alo { background: var(--amber-50); color: var(--amber-600); }
+  .avatar.dyf { background: var(--teal-50); color: var(--teal-600); }
+  .traveller-name { font-size: 15px; font-weight: 500; }
+  .traveller-sub { font-size: 12px; color: var(--text-hint); margin-top: 1px; }
+
+  /* ── Overview stats ── */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; }
+  .stat-card {
+    background: var(--bg-card);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+  }
+  .stat-label { font-size: 11px; color: var(--text-hint); margin-bottom: 4px; }
+  .stat-value { font-size: 22px; font-weight: 500; color: var(--text-primary); line-height: 1; }
+  .stat-unit { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+  /* ── Day tabs ── */
+  .tab-bar {
+    display: flex; gap: 0; overflow-x: auto; scrollbar-width: none;
+    border-bottom: 0.5px solid var(--border);
+    padding: 0 24px;
+    background: var(--bg-card);
+  }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 12px 18px; font-size: 13px; cursor: pointer;
+    border-bottom: 2px solid transparent; color: var(--text-hint);
+    white-space: nowrap; transition: color .15s;
+    background: none; border-top: none; border-left: none; border-right: none;
+    font-family: var(--font);
+  }
+  .tab.active { color: var(--amber-600); border-bottom-color: var(--amber-400); font-weight: 500; }
+  .tab:hover:not(.active) { color: var(--text-secondary); }
+
+  /* ── Day content ── */
+  .day-panel { display: none; padding: 24px; }
+  .day-panel.active { display: block; }
+  .day-header {
+    display: flex; align-items: baseline; gap: 10px; margin-bottom: 20px;
+  }
+  .day-num {
+    font-size: 28px; font-weight: 500; color: var(--amber-400); line-height: 1;
+  }
+  .day-title { font-size: 16px; font-weight: 500; }
+  .day-date { font-size: 12px; color: var(--text-hint); margin-top: 2px; }
+
+  /* ── Timeline ── */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 7px; top: 8px;
+    bottom: 8px; width: 0.5px; background: var(--border);
+  }
+  .tl-item { position: relative; margin-bottom: 20px; }
+  .tl-dot {
+    position: absolute; left: -28px; top: 6px;
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 2px solid var(--bg-card);
+    background: var(--amber-200);
+  }
+  .tl-dot.food { background: var(--coral-200); }
+  .tl-dot.hotel { background: var(--teal-200); }
+  .tl-dot.tip { background: var(--blue-100); }
+  .tl-time { font-size: 11px; color: var(--text-hint); margin-bottom: 3px; }
+  .tl-card {
+    background: var(--bg-card);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+  }
+  .tl-card-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+  .tl-card-body { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+  .tl-tag {
+    display: inline-block; font-size: 11px;
+    padding: 2px 8px; border-radius: 10px; margin-top: 8px;
+  }
+  .tl-tag.sight { background: var(--amber-50); color: var(--amber-600); }
+  .tl-tag.food { background: var(--coral-50); color: var(--coral-600); }
+  .tl-tag.hotel { background: var(--teal-50); color: var(--teal-600); }
+  .tl-tag.tip { background: var(--blue-50); color: var(--blue-600); }
+  .tl-booking {
+    display: inline-block;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 8px;
+    background: var(--coral-50);
+    color: var(--coral-600);
+    margin-left: 8px;
+    font-weight: 500;
+  }
+  .tl-restaurant {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 6px;
+    padding: 6px 8px;
+    background: var(--coral-50);
+    border-radius: var(--radius-sm);
+    line-height: 1.5;
+  }
+  .tl-restaurant strong {
+    color: var(--coral-600);
+  }
+  .map-section {
+    margin-top: 20px;
+    padding: 16px;
+    background: var(--bg-card);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+  .map-title {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+  }
+  .map-image {
+    width: 100%;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .map-image:hover {
+    transform: scale(1.02);
+  }
+  .map-caption {
+    font-size: 11px;
+    color: var(--text-hint);
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  /* ── Tips section ── */
+  .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+  .tip-card {
+    background: var(--bg-card); border: 0.5px solid var(--border);
+    border-radius: var(--radius-md); padding: 16px;
+  }
+  .tip-icon {
+    width: 32px; height: 32px; border-radius: var(--radius-sm);
+    background: var(--amber-50); display: flex; align-items: center;
+    justify-content: center; margin-bottom: 10px;
+  }
+  .tip-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+  .tip-body { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+
+  /* ── Placeholder ── */
+  .placeholder {
+    background: var(--bg-card); border: 0.5px dashed var(--border);
+    border-radius: var(--radius-md); padding: 32px 24px;
+    text-align: center; color: var(--text-hint); font-size: 13px;
+  }
+  .placeholder strong { display: block; font-size: 15px; font-weight: 500; color: var(--text-secondary); margin-bottom: 6px; }
+
+  /* ── Footer ── */
+  .footer { padding: 24px; border-top: 0.5px solid var(--border); }
+  .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .footer-text { font-size: 12px; color: var(--text-hint); }
+  .footer-names { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
+
+  @media (max-width: 480px) {
+    .hero { padding: 40px 20px 36px; }
+    .hero h1 { font-size: 26px; }
+    .section { padding: 24px 16px; }
+    .tab-bar { padding: 0 16px; }
+    .day-panel { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <svg class="hero-deco" viewBox="0 0 320 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M280 0 L320 0 L320 240 L0 240 Z" fill="#fff"/>
+    <path d="M60 200 L120 120 L180 160 L240 60 L300 100" stroke="#fff" stroke-width="2" fill="none"/>
+    <circle cx="60" cy="200" r="6" fill="#fff"/>
+    <circle cx="120" cy="120" r="6" fill="#fff"/>
+    <circle cx="180" cy="160" r="6" fill="#fff"/>
+    <circle cx="240" cy="60" r="6" fill="#fff"/>
+    <circle cx="300" cy="100" r="6" fill="#fff"/>
+    <path d="M20 80 Q80 40 140 80 Q200 120 260 60" stroke="#fff" stroke-width="1" fill="none" stroke-dasharray="4 6"/>
+    <path d="M10 150 L30 100 L50 130 L70 80 L90 110 L110 70 L130 90" stroke="#fff" stroke-width="0.8" fill="none"/>
+  </svg>
+  <div class="hero-tag">山西旅游攻略</div>
+  <h1>三晋大地之旅</h1>
+  <p>Alo & Dyf 的专属行程手册 · 2026</p>
+  <div class="hero-pills">
+    <span class="hero-pill">平遥古城</span>
+    <span class="hero-pill">云冈石窟</span>
+    <span class="hero-pill">五台山</span>
+    <span class="hero-pill">壶口瀑布</span>
+    <span class="hero-pill">更多待补充</span>
+  </div>
+</div>
+
+<!-- Travellers -->
+<div class="section">
+  <div class="section-title">同行旅伴</div>
+  <div class="travellers">
+    <div class="traveller-card">
+      <div class="avatar alo">ALO</div>
+      <div>
+        <div class="traveller-name">Alo</div>
+        <div class="traveller-sub">旅行发起人</div>
+      </div>
+    </div>
+    <div class="traveller-card">
+      <div class="avatar dyf">DYF</div>
+      <div>
+        <div class="traveller-name">Dyf</div>
+        <div class="traveller-sub">同行伙伴</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="section" style="padding-top: 0;">
+  <div class="section-title">行程概览</div>
+  <div class="stats" id="stats">
+    <div class="stat-card">
+      <div class="stat-label">行程天数</div>
+      <div class="stat-value" id="stat-days">—</div>
+      <div class="stat-unit">天</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">途经城市</div>
+      <div class="stat-value" id="stat-cities">—</div>
+      <div class="stat-unit">座</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">主要景点</div>
+      <div class="stat-value" id="stat-spots">—</div>
+      <div class="stat-unit">处</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">人数</div>
+      <div class="stat-value">2</div>
+      <div class="stat-unit">人同行</div>
+    </div>
+  </div>
+</div>
+
+<!-- Day tabs -->
+<div class="tab-bar" id="tabBar">
+  <button class="tab active" onclick="switchTab(0)">Day 1 · 5/26</button>
+  <button class="tab" onclick="switchTab(1)">Day 2 · 5/27</button>
+</div>
+
+<!-- Day panels -->
+<div id="dayPanels">
+  <div class="day-panel active" id="panel-0">
+    <div class="day-header">
+      <div>
+        <div class="day-num">Day 1</div>
+        <div class="day-title">初到平遥 · 古城夜韵</div>
+        <div class="day-date">5月26日（周二）</div>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-time">上午</div>
+        <div class="tl-card">
+          <div class="tl-card-title">各自出发</div>
+          <div class="tl-card-body">Alo从临汾出发，Dyf从深圳经太原转车前往平遥古城</div>
+          <span class="tl-tag sight">交通</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-time">09:47</div>
+        <div class="tl-card">
+          <div class="tl-card-title">汇合平遥古城</div>
+          <div class="tl-card-body">Dyf抵达平遥古城站，与Alo汇合</div>
+          <span class="tl-tag sight">交通</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-time">10:30-12:00</div>
+        <div class="tl-card">
+          <div class="tl-card-title">初游古城</div>
+          <div class="tl-card-body">漫步平遥古城街道，感受明清建筑风貌</div>
+          <span class="tl-tag sight">景点</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-time">14:00-16:00</div>
+        <div class="tl-card">
+          <div class="tl-card-title">观看《又见平遥》</div>
+          <div class="tl-card-body">沉浸式实景演出，体验晋商文化精髓</div>
+          <span class="tl-tag sight">演出</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-time">16:30-20:00</div>
+        <div class="tl-card">
+          <div class="tl-card-title">古城深度游</div>
+          <div class="tl-card-body">参观县衙、票号、镖局等，品尝当地小吃</div>
+          <span class="tl-tag sight">景点</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-time">21:03-21:49</div>
+        <div class="tl-card">
+          <div class="tl-card-title">前往太原</div>
+          <div class="tl-card-body">乘坐火车从平遥古城出发前往太原站</div>
+          <span class="tl-tag sight">交通</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="day-panel" id="panel-1">
+    <div class="day-header">
+      <div>
+        <div class="day-num">Day 2</div>
+        <div class="day-title">太原博物 · 大同古城</div>
+        <div class="day-date">5月27日（周三）</div>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-time">上午</div>
+        <div class="tl-card">
+          <div class="tl-card-title">山西博物院</div>
+          <div class="tl-card-body">参观山西博物院，了解三晋历史文化</div>
+          <span class="tl-tag sight">景点</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot food"></div>
+        <div class="tl-time">中午</div>
+        <div class="tl-card">
+          <div class="tl-card-title">太原午餐</div>
+          <div class="tl-card-body">品尝太原特色美食，刀削面、过油肉等</div>
+          <span class="tl-tag food">餐饮</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-time">下午</div>
+        <div class="tl-card">
+          <div class="tl-card-title">前往大同</div>
+          <div class="tl-card-body">乘坐火车从太原前往大同南站（14:21-16:25）</div>
+          <span class="tl-tag sight">交通</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-time">傍晚-晚上</div>
+        <div class="tl-card">
+          <div class="tl-card-title">大同古城游览</div>
+          <div class="tl-card-body">参观华严寺、五龙壁、善化寺等，感受北魏古都风情</div>
+          <span class="tl-tag sight">景点</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tips -->
+<div class="section">
+  <div class="section-title">旅行贴士</div>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="tip-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="9" r="7" stroke="#BA7517" stroke-width="1.5"/>
+          <path d="M9 5v4l3 2" stroke="#BA7517" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="tip-title">最佳游览时间</div>
+      <div class="tip-body">春秋两季气候宜人，4–5月或9–10月最佳；夏季部分景区人多，建议早出发。</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <rect x="2" y="4" width="14" height="10" rx="2" stroke="#993C1D" stroke-width="1.5"/>
+          <path d="M5 4V3M13 4V3M2 8h14" stroke="#993C1D" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="tip-title">景区门票</div>
+      <div class="tip-body">平遥古城联票约 145 元；云冈石窟约 80 元；五台山约 168 元。建议提前网购。</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M9 2C6.24 2 4 4.24 4 7c0 3.75 5 9 5 9s5-5.25 5-9c0-2.76-2.24-5-5-5z" stroke="#0F6E56" stroke-width="1.5" fill="none"/>
+          <circle cx="9" cy="7" r="2" stroke="#0F6E56" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="tip-title">交通建议</div>
+      <div class="tip-body">省内景点之间距离较远，建议租车或包车。太原有高铁站，可作为进出枢纽。</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M3 14l3-6 3 4 3-7 3 9" stroke="#854F0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </div>
+      <div class="tip-title">必吃美食</div>
+      <div class="tip-body">刀削面、过油肉、平遥牛肉、碗秃、醋（山西老陈醋最佳）。</div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-inner">
+    <span class="footer-text">山西旅游攻略 · 专属定制版</span>
+    <span class="footer-names">Alo & Dyf · 2026</span>
+  </div>
+</div>
+
+<script>
+const days = [
+  {
+    day: 1,
+    city: "平遥",
+    title: "初到平遥 · 古城夜韵",
+    date: "5月26日（周二）",
+    items: [
+      {time: "上午", title: "各自出发", desc: "Alo从临汾出发，Dyf从深圳经太原转车前往平遥古城", type: "sight"},
+      {time: "09:47", title: "汇合平遥古城", desc: "Dyf抵达平遥古城站，与Alo汇合", type: "sight"},
+      {time: "10:30-12:00", title: "初游古城", desc: "漫步平遥古城街道，感受明清建筑风貌", type: "sight"},
+      {time: "12:00-13:30", title: "午餐推荐", desc: "平遥特色午餐", type: "food", restaurant: "<strong>推荐：</strong>天元奎 / 人在北方", detail: "平遥牛肉、碗秃、莜面栲栳栳"},
+      {time: "14:00-16:00", title: "观看《又见平遥》", desc: "沉浸式实景演出，体验晋商文化精髓", type: "sight", needsBooking: true},
+      {time: "16:30-20:00", title: "古城深度游", desc: "参观县衙、票号、镖局等，品尝当地小吃", type: "sight"},
+      {time: "18:00-19:30", title: "晚餐推荐", desc: "平遥古城内晚餐", type: "food", restaurant: "<strong>推荐：</strong>平遥大戏堂 / 云锦成", detail: "平遥牛肉火锅、拨烂子"},
+      {time: "21:03-21:49", title: "前往太原", desc: "乘坐火车从平遥古城出发前往太原站", type: "sight"},
+      {time: "晚间", title: "太原住宿推荐", desc: "建议住太原站/五一广场附近，方便次日前往山西博物院", type: "hotel", restaurant: "<strong>推荐区域：</strong>太原站附近 / 五一广场周边<br><strong>参考：</strong>太原维刚酒店 / 如家精选（太原站店）", detail: "近地铁2号线，去山西博物院方便"}
+    ]
+  },
+  {
+    day: 2,
+    city: "太原·大同",
+    title: "山西博物 · 大同古城",
+    date: "5月27日（周三）",
+    items: [
+      {time: "上午", title: "山西博物院", desc: "优先参观山西博物院，了解三晋历史文化（青铜器、壁画、建筑）", type: "sight", needsBooking: true},
+      {time: "上午晚些（可选）", title: "晋祠博物馆", desc: "如时间允许，前往晋祠，中国现存最早的皇家祭祀园林", type: "sight", needsBooking: true},
+      {time: "12:00-13:30", title: "午餐推荐", desc: "太原特色美食", type: "food", restaurant: "<strong>推荐：</strong>山西会馆 / 食品街老字号", detail: "刀削面、过油肉、百花稍梅"},
+      {time: "下午", title: "前往大同", desc: "乘坐火车从太原前往大同南站（14:21-16:25）", type: "sight"},
+      {time: "傍晚-晚上", title: "大同古城游览", desc: "参观华严寺、五龙壁、善化寺等，感受北魏古都风情", type: "sight"},
+      {time: "18:30-20:00", title: "晚餐推荐", desc: "大同古城内晚餐", type: "food", restaurant: "<strong>推荐：</strong>凤临阁 / 老大同饭庄", detail: "大同刀削面、浑源凉粉、黄糕"},
+      {time: "晚间", title: "大同住宿推荐（Day2-4）", desc: "建议住大同古城内或大西街附近，步行可达各景点", type: "hotel", restaurant: "<strong>推荐区域：</strong>大同古城内 / 大西街 / 大同南站附近<br><strong>参考：</strong>大同云中传统四合院 / 全季酒店（大同古城店）", detail: "古城内方便夜游，南站附近方便最后一天坐车"}
+    ]
+  },
+  {
+    day: 3,
+    city: "大同·浑源·应县",
+    title: "北岳探秘 · 木塔凌空",
+    date: "5月28日（周四）",
+    items: [
+      {time: "上午", title: "租车前往悬空寺", desc: "租车从大同出发，前往浑源悬空寺", type: "sight", needsBooking: true},
+      {time: "12:00-13:00", title: "午餐推荐", desc: "浑源县城午餐", type: "food", restaurant: "<strong>推荐：</strong>浑源小媳妇凉粉 / 悬空寺农家乐", detail: "浑源凉粉、莜面窝窝"},
+      {time: "中午", title: "永安禅寺", desc: "参观永安禅寺，欣赏元代壁画艺术", type: "sight"},
+      {time: "下午", title: "圆觉寺 · 应县木塔", desc: "参观圆觉寺砖塔，登应县木塔（佛宫寺释迦塔）", type: "sight", needsBooking: true},
+      {time: "18:00-19:30", title: "晚餐推荐", desc: "返回大同后晚餐", type: "food", restaurant: "<strong>推荐：</strong>凯鸽酒楼 / 龙聚祥", detail: "烤羊排、大同什锦火锅"}
+    ]
+  },
+  {
+    day: 4,
+    city: "大同·北京",
+    title: "石窟巅峰 · 北上京城",
+    date: "5月29日（周五）",
+    items: [
+      {time: "上午", title: "租车前往云冈石窟", desc: "租车前往云冈石窟，参观世界文化遗产", type: "sight", needsBooking: true},
+      {time: "12:00-13:00", title: "午餐推荐", desc: "云冈石窟附近午餐", type: "food", restaurant: "<strong>推荐：</strong>云冈石窟景区餐厅 / 大同市区刀削面馆", detail: "刀削面、羊杂割"},
+      {time: "中午", title: "云冈石窟深度游", desc: "仔细欣赏云冈石窟佛像雕刻艺术", type: "sight"},
+      {time: "下午", title: "返回大同", desc: "返回大同，再次打卡大同古城或参观大同博物馆", type: "sight", needsBooking: true},
+      {time: "18:00-19:30", title: "晚餐推荐", desc: "大同最后一餐", type: "food", restaurant: "<strong>推荐：</strong>华严寺附近小吃街 / 凤临阁", detail: "烧麦、黄糕、羊肉串"},
+      {time: "20:08", title: "乘坐复兴号前往北京", desc: "大同南站乘坐复兴号，前往北京", type: "sight"}
+    ]
+  }
+];
+
+function switchTab(idx) {
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.day-panel').forEach((p, i) => {
+    p.classList.toggle('active', i === idx);
+  });
+}
+
+function buildDays(data) {
+  const tabBar = document.getElementById('tabBar');
+  const panels = document.getElementById('dayPanels');
+  tabBar.innerHTML = '';
+  panels.innerHTML = '';
+
+  data.forEach((day, idx) => {
+    const tab = document.createElement('button');
+    tab.className = 'tab' + (idx === 0 ? ' active' : '');
+    tab.textContent = `Day ${day.day} · ${day.city}`;
+    tab.onclick = () => switchTab(idx);
+    tabBar.appendChild(tab);
+
+    const panel = document.createElement('div');
+    panel.className = 'day-panel' + (idx === 0 ? ' active' : '');
+    panel.id = `panel-${idx}`;
+
+    let tlHtml = '';
+    (day.items || []).forEach(item => {
+      const dotClass = item.type === 'food' ? 'food' : item.type === 'hotel' ? 'hotel' : item.type === 'tip' ? 'tip' : '';
+      const tagClass = item.type === 'food' ? 'food' : item.type === 'hotel' ? 'hotel' : item.type === 'tip' ? 'tip' : 'sight';
+      const tagText = item.type === 'food' ? '餐饮' : item.type === 'hotel' ? '住宿' : item.type === 'tip' ? '提示' : '景点';
+      
+      let bookingTag = '';
+      if (item.needsBooking) {
+        bookingTag = '<span class="tl-booking">需预定</span>';
+      }
+      
+      let restaurantInfo = '';
+      if (item.restaurant) {
+        restaurantInfo = `<div class="tl-restaurant">${item.restaurant}<br>${item.detail}</div>`;
+      }
+      
+      tlHtml += `<div class="tl-item">
+        <div class="tl-dot ${dotClass}"></div>
+        <div class="tl-time">${item.time || ''}</div>
+        <div class="tl-card">
+          <div class="tl-card-title">${item.title}${bookingTag}</div>
+          <div class="tl-card-body">${item.desc || ''}</div>
+          ${restaurantInfo}
+          <span class="tl-tag ${tagClass}">${tagText}</span>
+        </div>
+      </div>`;
+    });
+
+    panel.innerHTML = `
+      <div class="day-header">
+        <div>
+          <div class="day-num">Day ${day.day}</div>
+          <div class="day-title">${day.title}</div>
+          <div class="day-date">${day.date || ''}</div>
+        </div>
+      </div>
+      <div class="timeline">${tlHtml}</div>
+      ${day.city.includes('大同') ? `
+      <div class="map-section">
+        <div class="map-title">📍 大同景点分布图</div>
+        <img src="datong-map.png" alt="大同景点分布图" class="map-image" onclick="window.open(this.src, '_blank')">
+        <div class="map-caption">点击图片可查看大图 · 帮助规划行程路线</div>
+      </div>` : ''}
+    `;
+    panels.appendChild(panel);
+  });
+
+  document.getElementById('stat-days').textContent = data.length;
+  document.getElementById('stat-cities').textContent = '7';
+  document.getElementById('stat-spots').textContent = '10';
+}
+
+// 初始化页面
+buildDays(days);
+</script>
+</body>
+</html>
