@@ -668,14 +668,14 @@ const days = [
       {time: "09:14", title: "太原汇合", desc: "Alo 09:14 抵达太原南，Dyf 已于 08:15 先到，两人在太原南汇合 🎉", type: "sight"},
       {time: "上午", title: "山西博物院", desc: "参观山西博物院，了解三晋历史文化（青铜器、壁画）", type: "sight", needsBooking: true},
       {time: "12:00-13:30", title: "午餐推荐", desc: "太原特色美食", type: "food", restaurant: "<strong>推荐：</strong>山西会馆 / 食品街老字号", detail: "刀削面、过油肉、百花稍梅"},
-      {time: "午后", title: "太原酒店休息", desc: "太原酒店短暂休整，放下行李", type: "hotel", restaurant: "<strong>✅ 已预订：</strong>山西饭店（Alo 飞猪预订）", detail: "近地铁2号线，出行方便"},
+      {time: "午后", title: "太原酒店休息", desc: "太原酒店短暂休整，放下行李", type: "hotel", restaurant: "<strong>✅ 已预订：</strong>山西饭店（Alo 飞猪预订）· ¥390/晚", detail: "次日出发前往晋祠方便"},
       {time: "15:25", title: "✅ 太原南→平遥古城（已购票）", desc: "两人乘火车从太原南出发，15:25 → 15:56 抵达平遥古城", type: "sight"},
       {time: "抵达后", title: "平遥古城游览", desc: "漫步古城街道，感受明清建筑风貌，参观县衙、票号、镖局等", type: "sight"},
       {time: "傍晚", title: "观看《又见平遥》", desc: "沉浸式实景演出，体验晋商文化精髓（提前预约场次）", type: "sight", needsBooking: true},
       {time: "18:00-19:30", title: "晚餐推荐", desc: "平遥古城内晚餐", type: "food", restaurant: "<strong>推荐：</strong>天元奎 / 平遥大戏堂 / 云锦成", detail: "平遥牛肉、碗秃、莜面栲栳栳"},
       {time: "20:00后", title: "夜游古城", desc: "华灯初上，漫步古城感受夜色，品尝街头小吃", type: "sight"},
       {time: "21:58", title: "✅ 平遥古城→太原南（已购票）", desc: "两人乘火车从平遥古城返回太原南，21:58 → 22:30 抵达", type: "sight"},
-      {time: "晚间", title: "✅ 山西饭店（已订）", desc: "返回太原后入住山西饭店，Alo 通过飞猪预订", type: "hotel", restaurant: "<strong>✅ 已预订：</strong>山西饭店（Alo 飞猪预订）", detail: "次日出发前往晋祠"}
+      {time: "晚间", title: "✅ 山西饭店（已订）", desc: "返回太原后入住山西饭店，Alo 通过飞猪预订 · ¥390/晚", type: "hotel", restaurant: "<strong>✅ 已预订：</strong>山西饭店（Alo 飞猪预订）· ¥390/晚", detail: "次日出发前往晋祠"}
     ]
   },
   {
@@ -820,7 +820,7 @@ let entries = JSON.parse(localStorage.getItem('shanxi_ledger') || 'null') || [
   { id: 2, desc: 'Alo 临汾西→太原南', amount: 0, cat: 'traffic', day: 'Day 1', payer: 'Alo' },
   { id: 3, desc: '太原南→平遥古城（两人）', amount: 0, cat: 'traffic', day: 'Day 1', payer: 'AA' },
   { id: 4, desc: '平遥古城→太原南（两人）', amount: 0, cat: 'traffic', day: 'Day 1', payer: 'AA' },
-  { id: 5, desc: '山西饭店（太原，Alo预订）', amount: 0, cat: 'hotel', day: 'Day 1', payer: 'Alo' },
+  { id: 5, desc: '山西饭店（太原，Alo预订）', amount: 390, cat: 'hotel', day: 'Day 1', payer: 'Alo' },
   { id: 6, desc: '太原→大同南（两人）', amount: 0, cat: 'traffic', day: 'Day 2', payer: 'AA' },
   { id: 7, desc: '大同宋阙民宿（两晚，Dyf预订）', amount: 664.95, cat: 'hotel', day: 'Day 2', payer: 'Dyf' },
   { id: 8, desc: '大同南→北京北（两人）', amount: 0, cat: 'traffic', day: 'Day 4', payer: 'AA' },
