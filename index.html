@@ -816,14 +816,14 @@ const CAT_LABEL = { traffic:'交通', hotel:'酒店', sight:'景点门票', food
 const CAT_COLOR = { traffic:'cat-traffic', hotel:'cat-hotel', sight:'cat-sight', food:'cat-food', souvenir:'cat-souvenir' };
 
 let entries = JSON.parse(localStorage.getItem('shanxi_ledger') || 'null') || [
-  { id: 1, desc: 'Dyf 深圳北→太原南（跨夜火车）', amount: 0, cat: 'traffic', day: '行前', payer: 'Dyf' },
-  { id: 2, desc: 'Alo 临汾西→太原南', amount: 0, cat: 'traffic', day: 'Day 1', payer: 'Alo' },
-  { id: 3, desc: '太原南→平遥古城（两人）', amount: 0, cat: 'traffic', day: 'Day 1', payer: 'AA' },
-  { id: 4, desc: '平遥古城→太原南（两人）', amount: 0, cat: 'traffic', day: 'Day 1', payer: 'AA' },
+  { id: 1, desc: 'Dyf 深圳北→太原南（跨夜火车）', amount: 1140, cat: 'traffic', day: '行前', payer: 'Dyf' },
+  { id: 2, desc: 'Alo 临汾西→太原南', amount: 73, cat: 'traffic', day: 'Day 1', payer: 'Alo' },
+  { id: 3, desc: '太原南→平遥古城（两人）', amount: 58, cat: 'traffic', day: 'Day 1', payer: 'AA' },
+  { id: 4, desc: '平遥古城→太原南（两人）', amount: 58, cat: 'traffic', day: 'Day 1', payer: 'AA' },
   { id: 5, desc: '山西饭店（太原，Alo预订）', amount: 390, cat: 'hotel', day: 'Day 1', payer: 'Alo' },
-  { id: 6, desc: '太原→大同南（两人）', amount: 0, cat: 'traffic', day: 'Day 2', payer: 'AA' },
+  { id: 6, desc: '太原→大同南（两人）', amount: 208, cat: 'traffic', day: 'Day 2', payer: 'AA' },
   { id: 7, desc: '大同宋阙民宿（两晚，Dyf预订）', amount: 664.95, cat: 'hotel', day: 'Day 2', payer: 'Dyf' },
-  { id: 8, desc: '大同南→北京北（两人）', amount: 0, cat: 'traffic', day: 'Day 4', payer: 'AA' },
+  { id: 8, desc: '大同南→北京北（两人）', amount: 320, cat: 'traffic', day: 'Day 4', payer: 'AA' },
 ];
 
 function saveEntries() {
