@@ -508,30 +508,30 @@
 const days = [
   {
     day: 1,
-    city: "平遥",
-    title: "初到平遥 · 古城夜韵",
+    city: "太原·平遥",
+    title: "太原汇合 · 初探平遥",
     date: "5月26日（周二）",
     items: [
-      {time: "上午", title: "各自出发", desc: "Alo从临汾出发，Dyf从深圳经太原转车前往平遥古城", type: "sight"},
-      {time: "09:47", title: "汇合平遥古城", desc: "Dyf抵达平遥古城站，与Alo汇合", type: "sight"},
-      {time: "10:30-12:00", title: "初游古城", desc: "漫步平遥古城街道，感受明清建筑风貌", type: "sight"},
-      {time: "12:00-13:30", title: "午餐推荐", desc: "平遥特色午餐", type: "food", restaurant: "<strong>推荐：</strong>天元奎 / 人在北方", detail: "平遥牛肉、碗秃、莜面栲栳栳"},
-      {time: "14:00-16:00", title: "观看《又见平遥》", desc: "沉浸式实景演出，体验晋商文化精髓", type: "sight", needsBooking: true},
-      {time: "16:30-20:00", title: "古城深度游", desc: "参观县衙、票号、镖局等，品尝当地小吃", type: "sight"},
-      {time: "18:00-19:30", title: "晚餐推荐", desc: "平遥古城内晚餐", type: "food", restaurant: "<strong>推荐：</strong>平遥大戏堂 / 云锦成", detail: "平遥牛肉火锅、拨烂子"},
-      {time: "21:03-21:49", title: "前往太原", desc: "乘坐火车从平遥古城出发前往太原站", type: "sight"},
-      {time: "晚间", title: "太原住宿推荐", desc: "建议住太原站/五一广场附近，方便次日前往山西博物院", type: "hotel", restaurant: "<strong>推荐区域：</strong>太原站附近 / 五一广场周边<br><strong>参考：</strong>太原维刚酒店 / 如家精选（太原站店）", detail: "近地铁2号线，去山西博物院方便"}
+      {time: "上午", title: "太原汇合", desc: "Alo从临汾出发，Dyf从深圳飞太原，在太原汇合", type: "sight"},
+      {time: "上午", title: "山西博物院", desc: "参观山西博物院，了解三晋历史文化（青铜器、壁画）", type: "sight", needsBooking: true},
+      {time: "12:00-13:30", title: "午餐推荐", desc: "太原特色美食", type: "food", restaurant: "<strong>推荐：</strong>山西会馆 / 食品街老字号", detail: "刀削面、过油肉、百花稍梅"},
+      {time: "午后", title: "太原酒店休息", desc: "太原酒店短暂休整，放下行李", type: "hotel", restaurant: "<strong>推荐区域：</strong>太原站附近 / 五一广场周边<br><strong>参考：</strong>太原维刚酒店 / 如家精选（太原站店）", detail: "近地铁2号线，出行方便"},
+      {time: "下午", title: "前往平遥古城", desc: "乘坐火车从太原前往平遥古城（约1小时）", type: "sight"},
+      {time: "抵达后", title: "平遥古城游览", desc: "漫步古城街道，感受明清建筑风貌，参观县衙、票号、镖局等", type: "sight"},
+      {time: "傍晚", title: "观看《又见平遥》", desc: "沉浸式实景演出，体验晋商文化精髓（提前预约场次）", type: "sight", needsBooking: true},
+      {time: "18:00-19:30", title: "晚餐推荐", desc: "平遥古城内晚餐", type: "food", restaurant: "<strong>推荐：</strong>天元奎 / 平遥大戏堂 / 云锦成", detail: "平遥牛肉、碗秃、莜面栲栳栳"},
+      {time: "20:00后", title: "夜游古城", desc: "华灯初上，漫步古城感受夜色，品尝街头小吃", type: "sight"},
+      {time: "晚间", title: "平遥住宿推荐", desc: "建议住古城内客栈，体验晋商大院风情", type: "hotel", restaurant: "<strong>推荐区域：</strong>平遥古城内<br><strong>参考：</strong>又见平遥主题客栈 / 古城民宿四合院", detail: "古城内步行即可游览，体验感更好"}
     ]
   },
   {
     day: 2,
-    city: "太原·大同",
-    title: "山西博物 · 大同古城",
+    city: "平遥·太原·大同",
+    title: "晋祠古韵 · 北上大同",
     date: "5月27日（周三）",
     items: [
-      {time: "上午", title: "山西博物院", desc: "优先参观山西博物院，了解三晋历史文化（青铜器、壁画、建筑）", type: "sight", needsBooking: true},
-      {time: "上午晚些（可选）", title: "晋祠博物馆", desc: "如时间允许，前往晋祠，中国现存最早的皇家祭祀园林", type: "sight", needsBooking: true},
-      {time: "12:00-13:30", title: "午餐推荐", desc: "太原特色美食", type: "food", restaurant: "<strong>推荐：</strong>山西会馆 / 食品街老字号", detail: "刀削面、过油肉、百花稍梅"},
+      {time: "上午", title: "晋祠博物馆", desc: "参观晋祠，中国现存最早的皇家祭祀园林，欣赏圣母殿、鱼沼飞梁、周柏唐槐", type: "sight", needsBooking: true},
+      {time: "12:00-13:30", title: "午餐推荐", desc: "太原特色午餐", type: "food", restaurant: "<strong>推荐：</strong>晋祠周边农家 / 太原刀削面馆", detail: "刀削面、过油肉"},
       {time: "下午", title: "前往大同", desc: "乘坐火车从太原前往大同南站（14:21-16:25）", type: "sight"},
       {time: "傍晚-晚上", title: "大同古城游览", desc: "参观华严寺、五龙壁、善化寺等，感受北魏古都风情", type: "sight"},
       {time: "18:30-20:00", title: "晚餐推荐", desc: "大同古城内晚餐", type: "food", restaurant: "<strong>推荐：</strong>凤临阁 / 老大同饭庄", detail: "大同刀削面、浑源凉粉、黄糕"},
