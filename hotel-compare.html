@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>酒店比价助手</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --primary: #2563EB; --primary-light: #DBEAFE; --primary-dark: #1E40AF;
+    --bg: #F8FAFC; --card: #FFFFFF; --border: #E2E8F0;
+    --text: #1E293B; --text-sec: #64748B; --text-hint: #94A3B8;
+    --green: #059669; --green-bg: #ECFDF5;
+    --orange: #D97706; --orange-bg: #FFFBEB;
+    --red: #DC2626; --red-bg: #FEF2F2;
+    --radius: 12px;
+    --font: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+  }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6; }
+
+  .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; padding: 40px 32px 36px; }
+  .hero h1 { font-size: 26px; font-weight: 600; margin-bottom: 6px; }
+  .hero p { font-size: 13px; opacity: 0.8; }
+
+  .container { max-width: 800px; margin: 0 auto; padding: 0 16px; }
+
+  .search-section { margin-top: -20px; position: relative; z-index: 1; }
+  .search-card {
+    background: var(--card); border-radius: var(--radius);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 24px;
+  }
+  .form-row { display: flex; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .form-group { flex: 1; min-width: 140px; }
+  .form-label { font-size: 12px; font-weight: 500; color: var(--text-sec); margin-bottom: 5px; display: block; }
+  .form-input {
+    width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px;
+    font-size: 14px; font-family: var(--font); outline: none; transition: border .15s;
+  }
+  .form-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
+
+  .btn {
+    padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 500;
+    cursor: pointer; border: none; font-family: var(--font); transition: all .15s;
+  }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-outline { background: #fff; color: var(--primary); border: 1px solid var(--primary); }
+  .btn-outline:hover { background: var(--primary-light); }
+  .btn-sm { padding: 5px 12px; font-size: 12px; }
+  .btn-row { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+
+  .results { margin-top: 24px; }
+  .section-title { font-size: 13px; font-weight: 600; color: var(--text-sec); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 12px; }
+
+  .platform-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+  .platform-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 14px 16px; display: flex; align-items: center; gap: 12px;
+    cursor: pointer; transition: all .15s; text-decoration: none; color: var(--text);
+  }
+  .platform-card:hover { border-color: var(--primary); box-shadow: 0 2px 12px rgba(37,99,235,0.1); transform: translateY(-1px); }
+  .platform-icon {
+    width: 36px; height: 36px; border-radius: 8px; display: flex;
+    align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;
+  }
+  .platform-name { font-size: 14px; font-weight: 500; }
+  .platform-note { font-size: 11px; color: var(--text-hint); margin-top: 2px; }
+
+  .badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 6px; font-weight: 500; }
+  .badge-green { background: var(--green-bg); color: var(--green); }
+  .badge-orange { background: var(--orange-bg); color: var(--orange); }
+  .badge-blue { background: var(--primary-light); color: var(--primary); }
+
+  .tips { margin-top: 24px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; }
+  .tips h3 { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
+  .tips ul { list-style: none; padding: 0; }
+  .tips li { font-size: 13px; color: var(--text-sec); padding: 4px 0; padding-left: 18px; position: relative; }
+  .tips li::before { content: "✓"; position: absolute; left: 0; color: var(--green); font-weight: 600; }
+
+  .empty-state { text-align: center; padding: 48px 20px; color: var(--text-hint); }
+  .empty-state-icon { font-size: 48px; margin-bottom: 12px; }
+  .empty-state-text { font-size: 14px; }
+
+  .open-all-bar {
+    background: var(--primary-light); border-radius: 8px; padding: 10px 16px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 16px;
+  }
+  .open-all-bar .info { font-size: 13px; color: var(--primary-dark); font-weight: 500; }
+
+  .date-presets { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .date-preset {
+    font-size: 11px; padding: 3px 10px; border-radius: 12px; border: 1px solid var(--border);
+    background: #fff; cursor: pointer; font-family: var(--font); color: var(--text-sec);
+  }
+  .date-preset:hover { border-color: var(--primary); color: var(--primary); }
+
+  @media (max-width: 500px) {
+    .hero { padding: 28px 16px 28px; }
+    .hero h1 { font-size: 22px; }
+    .search-card { padding: 16px; }
+    .platform-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>🏨 酒店比价助手</h1>
+  <p>输入酒店名和城市，一键打开所有平台比价</p>
+</div>
+
+<div class="container">
+<div class="search-section">
+<div class="search-card">
+  <div class="form-row">
+    <div class="form-group" style="flex:2; min-width:200px;">
+      <label class="form-label">酒店名称 / 地名</label>
+      <input class="form-input" id="hotelName" type="text" placeholder="如：全季酒店 或 大同古城" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">城市</label>
+      <input class="form-input" id="city" type="text" placeholder="如：大同" />
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label class="form-label">入住日期</label>
+      <input class="form-input" id="checkin" type="date" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">退房日期</label>
+      <input class="form-input" id="checkout" type="date" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">人数</label>
+      <select class="form-input" id="guests">
+        <option value="1">1 人</option>
+        <option value="2" selected>2 人</option>
+        <option value="3">3 人</option>
+        <option value="4">4 人</option>
+      </select>
+    </div>
+  </div>
+  <div class="date-presets">
+    <span class="form-label" style="width:100%; margin-bottom:2px;">快捷设置日期：</span>
+    <button class="date-preset" onclick="setDates(0)">今天入住 · 1晚</button>
+    <button class="date-preset" onclick="setDates(1)">明天入住 · 1晚</button>
+    <button class="date-preset" onclick="setDates(2)">后天入住 · 1晚</button>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="searchAll()">🔍 全网比价</button>
+    <button class="btn btn-outline" onclick="clearAll()">清空</button>
+  </div>
+</div>
+</div>
+
+<div class="results" id="results" style="display:none;">
+  <div class="open-all-bar" id="openAllBar">
+    <span class="info" id="resultCount"></span>
+    <div style="display:flex; gap:6px;">
+      <button class="btn btn-primary btn-sm" onclick="openAll()">🚀 一键全开</button>
+      <button class="btn btn-outline btn-sm" onclick="openDomestic()">国内平台</button>
+      <button class="btn btn-outline btn-sm" onclick="openIntl()">国际平台</button>
+    </div>
+  </div>
+  <div class="section-title" style="margin-top:16px;">国内平台 <span class="badge badge-green" style="margin-left:8px;">推荐优先</span></div>
+  <div class="platform-grid" id="domesticGrid"></div>
+  <div class="section-title" style="margin-top:20px;">国际平台</div>
+  <div class="platform-grid" id="intlGrid"></div>
+</div>
+
+<div class="results" id="emptyState">
+  <div class="empty-state">
+    <div class="empty-state-icon">🔍</div>
+    <div class="empty-state-text">输入酒店名和城市，开始比价吧！</div>
+  </div>
+</div>
+
+<div class="tips">
+  <h3>💡 比价小贴士</h3>
+  <ul>
+    <li>国内酒店优先看：携程、美团、飞猪（常有补贴）</li>
+    <li>高端/国际酒店加看：Booking、Agoda、Hotels.com</li>
+    <li>同一平台用无痕模式对比（避免大数据杀熟）</li>
+    <li>注意是否含早餐、是否可取消、是否有隐性费用</li>
+    <li>民宿类可加看：爱彼迎(Airbnb)、途家</li>
+  </ul>
+</div>
+</div>
+
+<script>
+// ── 日期快捷设置 ──
+function setDates(offset) {
+  const d = new Date();
+  d.setDate(d.getDate() + offset);
+  const next = new Date(d);
+  next.setDate(next.getDate() + 1);
+  document.getElementById('checkin').value = d.toISOString().slice(0,10);
+  document.getElementById('checkout').value = next.toISOString().slice(0,10);
+}
+
+// 默认设置明天入住
+setDates(1);
+
+function getParams() {
+  const name = document.getElementById('hotelName').value.trim();
+  const city = document.getElementById('city').value.trim();
+  const checkin = document.getElementById('checkin').value;
+  const checkout = document.getElementById('checkout').value;
+  const guests = document.getElementById('guests').value;
+  return { name, city, checkin, checkout, guests };
+}
+
+function fmt(s) {
+  return s.replace(/ /g, '+');
+}
+
+function searchAll() {
+  const p = getParams();
+  if (!p.name && !p.city) { alert('请输入酒店名称或城市'); return; }
+
+  const q = p.city ? `${p.city} ${p.name}` : p.name;
+  const qenc = encodeURIComponent(q);
+  const qplus = q.replace(/ /g, '+');
+
+  // 日期格式化 YYYYMMDD
+  const ci = p.checkin ? p.checkin.replace(/-/g,'') : '';
+  const co = p.checkout ? p.checkout.replace(/-/g,'') : '';
+
+  const domestic = [
+    {
+      name: '携程 Ctrip', note: '国内最大 · 会员价优',
+      color: '#0086F6', icon: '🟦',
+      url: `https://m.ctrip.com/webapp/hotel/search/list?city=${encodeURIComponent(p.city)}&keyword=${qenc}`
+    },
+    {
+      name: '美团酒店', note: '常有优惠券 · 价格低',
+      color: '#FF8C00', icon: '🟧',
+      url: `https://www.meituan.com/hotel/search/?keyword=${qenc}`
+    },
+    {
+      name: '飞猪旅行', note: '阿里系 · 支付宝积分抵现',
+      color: '#FF6A00', icon: '🟠',
+      url: `https://travel.fliggy.com/hotel/city/search.htm?q=${qenc}`
+    },
+    {
+      name: '去哪儿 Qunar', note: '比价强 · 低价房多',
+      color: '#3581F6', icon: '🟦',
+      url: `https://hotel.qunar.com/city/${encodeURIComponent(p.city)}/?from=${ci}&to=${co}&q=${qenc}`
+    },
+    {
+      name: '同程旅行', note: '腾讯系 · 微信入口',
+      color: '#07C160', icon: '🟢',
+      url: `https://www.ly.com/hotel/search?keyword=${qenc}`
+    },
+    {
+      name: 'Trip.com', note: '携程国际版 · 支持中文',
+      color: '#0086F6', icon: '✈️',
+      url: `https://www.trip.com/hotels/list?cityName=${qenc}&checkIn=${p.checkin}&checkOut=${p.checkout}&adult=${p.guests}`
+    },
+    {
+      name: '途牛酒店', note: '跟团+酒店一体',
+      color: '#FF4E50', icon: '🟥',
+      url: `https://hotel.tuniu.com/list/?keyword=${qenc}`
+    }
+  ];
+
+  const intl = [
+    {
+      name: 'Booking.com', note: '全球最大 · 免费取消多',
+      color: '#003580', icon: '🔵',
+      url: `https://www.booking.com/searchresults.html?ss=${qenc}&checkin=${ci}&checkout=${co}&group_adults=${p.guests}`
+    },
+    {
+      name: 'Agoda', note: '亚洲酒店强 · 积分抵现',
+      color: '#691A99', icon: '🟣',
+      url: `https://www.agoda.com/zh-cn/search?city=${qenc}&checkIn=${p.checkin}&checkOut=${p.checkout}&adults=${p.guests}`
+    },
+    {
+      name: 'Hotels.com', note: '住10晚送1晚',
+      color: '#E03C31', icon: '🔴',
+      url: `https://www.hotels.com/search/${qenc}/?q-check-in=${p.checkin}&q-check-out=${p.checkout}&q-rooms=1&q-room-0-adults=${p.guests}`
+    },
+    {
+      name: 'Airbnb 爱彼迎', note: '民宿首选 · 特色住宿',
+      color: '#FF5A5F', icon: '🟥',
+      url: `https://www.airbnb.cn/s/${qenc}/homes?checkin=${p.checkin}&checkout=${p.checkout}&adults=${p.guests}`
+    },
+    {
+      name: 'Google Hotels', note: '聚合比价 · 最全面',
+      color: '#4285F4', icon: '🟦',
+      url: `https://www.google.com/travel/hotels/search?q=${qenc}&checkin_date=${p.checkin}&checkout_date=${p.checkout}&adults=${p.guests}`
+    }
+  ];
+
+  renderGrid('domesticGrid', domestic);
+  renderGrid('intlGrid', intl);
+
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('resultCount').textContent =
+    `找到 ${domestic.length + intl.length} 个平台 · 点击卡片打开，或一键全开`;
+
+  window.__allUrls = [...domestic.map(x=>x.url), ...intl.map(x=>x.url)];
+  window.__domesticUrls = domestic.map(x=>x.url);
+  window.__intlUrls = intl.map(x=>x.url);
+}
+
+function renderGrid(id, platforms) {
+  const grid = document.getElementById(id);
+  grid.innerHTML = platforms.map(p => `
+    <a class="platform-card" href="${p.url}" target="_blank" rel="noopener">
+      <div class="platform-icon" style="background:${p.color}15; color:${p.color};">${p.icon}</div>
+      <div>
+        <div class="platform-name">${p.name}</div>
+        <div class="platform-note">${p.note}</div>
+      </div>
+    </a>
+  `).join('');
+}
+
+function openAll() {
+  (window.__allUrls||[]).forEach((url,i) => setTimeout(() => window.open(url,'_blank'), i*300));
+}
+function openDomestic() {
+  (window.__domesticUrls||[]).forEach((url,i) => setTimeout(() => window.open(url,'_blank'), i*300));
+}
+function openIntl() {
+  (window.__intlUrls||[]).forEach((url,i) => setTimeout(() => window.open(url,'_blank'), i*300));
+}
+function clearAll() {
+  document.getElementById('hotelName').value = '';
+  document.getElementById('city').value = '';
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('emptyState').style.display = 'block';
+}
+</script>
+</body>
+</html>
