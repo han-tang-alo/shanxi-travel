@@ -243,6 +243,94 @@
   .footer-text { font-size: 12px; color: var(--text-hint); }
   .footer-names { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
 
+  /* ── Main Tab (行程 / 记账) ── */
+  .main-tab-bar {
+    display: flex; background: var(--bg-card);
+    border-bottom: 0.5px solid var(--border);
+    padding: 0 24px; gap: 0;
+  }
+  .main-tab {
+    padding: 14px 24px; font-size: 15px; font-weight: 500; cursor: pointer;
+    border-bottom: 2.5px solid transparent; color: var(--text-hint);
+    background: none; border-top: none; border-left: none; border-right: none;
+    font-family: var(--font); transition: color .15s; white-space: nowrap;
+  }
+  .main-tab.active { color: var(--amber-600); border-bottom-color: var(--amber-400); }
+  .main-tab:hover:not(.active) { color: var(--text-secondary); }
+  .main-view { display: none; }
+  .main-view.active { display: block; }
+
+  /* ── 记账 ── */
+  .ledger-wrap { padding: 24px; max-width: 640px; margin: 0 auto; }
+  .ledger-summary {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;
+  }
+  .ledger-stat {
+    background: var(--bg-card); border: 0.5px solid var(--border);
+    border-radius: var(--radius-md); padding: 14px 16px; text-align: center;
+  }
+  .ledger-stat-label { font-size: 11px; color: var(--text-hint); margin-bottom: 4px; }
+  .ledger-stat-value { font-size: 22px; font-weight: 600; color: var(--text-primary); }
+  .ledger-stat-value.total { color: var(--amber-600); }
+  .ledger-stat-value.per { color: var(--teal-600); }
+
+  .ledger-add {
+    background: var(--bg-card); border: 0.5px solid var(--border);
+    border-radius: var(--radius-md); padding: 16px; margin-bottom: 20px;
+  }
+  .ledger-add-title { font-size: 13px; font-weight: 600; margin-bottom: 12px; color: var(--text-secondary); }
+  .ledger-form { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; }
+  .ledger-input {
+    padding: 8px 10px; border: 0.5px solid var(--border); border-radius: 8px;
+    font-size: 13px; font-family: var(--font); outline: none; background: var(--bg);
+  }
+  .ledger-input:focus { border-color: var(--amber-400); }
+  .ledger-input.desc { flex: 2; min-width: 120px; }
+  .ledger-input.amount { width: 90px; }
+  .ledger-input.select { min-width: 90px; }
+  .btn-add-entry {
+    padding: 8px 16px; background: var(--amber-600); color: #fff;
+    border: none; border-radius: 8px; font-size: 13px; font-weight: 500;
+    cursor: pointer; font-family: var(--font); white-space: nowrap;
+  }
+  .btn-add-entry:hover { background: var(--amber-800); }
+
+  .ledger-list { display: flex; flex-direction: column; gap: 8px; }
+  .ledger-group-title {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-hint); margin: 12px 0 6px;
+  }
+  .ledger-item {
+    background: var(--bg-card); border: 0.5px solid var(--border);
+    border-radius: var(--radius-md); padding: 12px 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .ledger-item-cat {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; flex-shrink: 0;
+  }
+  .ledger-item-info { flex: 1; min-width: 0; }
+  .ledger-item-desc { font-size: 13px; font-weight: 500; }
+  .ledger-item-meta { font-size: 11px; color: var(--text-hint); margin-top: 1px; }
+  .ledger-item-amount { font-size: 15px; font-weight: 600; color: var(--text-primary); white-space: nowrap; }
+  .ledger-item-del {
+    width: 24px; height: 24px; border-radius: 6px; border: none; background: none;
+    color: var(--text-hint); cursor: pointer; font-size: 14px; display: flex;
+    align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .ledger-item-del:hover { background: var(--coral-50); color: var(--coral-600); }
+  .ledger-empty {
+    text-align: center; padding: 40px 20px; color: var(--text-hint); font-size: 13px;
+  }
+
+  /* 分类颜色 */
+  .cat-traffic { background: var(--blue-50); }
+  .cat-hotel { background: var(--teal-50); }
+  .cat-food { background: var(--coral-50); }
+  .cat-sight { background: var(--amber-50); }
+  .cat-other { background: var(--gray-50); }
+
   @media (max-width: 480px) {
     .hero { padding: 40px 20px 36px; }
     .hero h1 { font-size: 26px; }
@@ -279,7 +367,14 @@
   </div>
 </div>
 
-<!-- Travellers -->
+<!-- Main Tabs -->
+<div class="main-tab-bar">
+  <button class="main-tab active" onclick="switchMain('itinerary')">🗺 行程</button>
+  <button class="main-tab" onclick="switchMain('ledger')">💰 记账</button>
+</div>
+
+<!-- 行程 View -->
+<div class="main-view active" id="view-itinerary">
 <div class="section">
   <div class="section-title">同行旅伴</div>
   <div class="travellers">
@@ -504,6 +599,63 @@
   </div>
 </div>
 
+</div><!-- /view-itinerary -->
+
+<!-- 记账 View -->
+<div class="main-view" id="view-ledger">
+  <div class="ledger-wrap">
+    <!-- 汇总 -->
+    <div class="ledger-summary">
+      <div class="ledger-stat">
+        <div class="ledger-stat-label">总花费</div>
+        <div class="ledger-stat-value total" id="led-total">¥0</div>
+      </div>
+      <div class="ledger-stat">
+        <div class="ledger-stat-label">人均</div>
+        <div class="ledger-stat-value per" id="led-per">¥0</div>
+      </div>
+      <div class="ledger-stat">
+        <div class="ledger-stat-label">笔数</div>
+        <div class="ledger-stat-value" id="led-count">0</div>
+      </div>
+    </div>
+
+    <!-- 添加 -->
+    <div class="ledger-add">
+      <div class="ledger-add-title">＋ 添加一笔</div>
+      <div class="ledger-form">
+        <input class="ledger-input desc" id="led-desc" type="text" placeholder="描述，如：火车票">
+        <input class="ledger-input amount" id="led-amount" type="number" placeholder="金额" min="0" step="0.01">
+        <select class="ledger-input select" id="led-cat">
+          <option value="traffic">🚄 交通</option>
+          <option value="hotel">🏨 住宿</option>
+          <option value="food">🍜 餐饮</option>
+          <option value="sight">🏯 景点</option>
+          <option value="other">📦 其他</option>
+        </select>
+        <select class="ledger-input select" id="led-day">
+          <option value="Day 1">Day 1</option>
+          <option value="Day 2">Day 2</option>
+          <option value="Day 3">Day 3</option>
+          <option value="Day 4">Day 4</option>
+          <option value="行前">行前</option>
+        </select>
+        <select class="ledger-input select" id="led-payer">
+          <option value="Alo">Alo 付</option>
+          <option value="Dyf">Dyf 付</option>
+          <option value="AA">AA</option>
+        </select>
+        <button class="btn-add-entry" onclick="addEntry()">记录</button>
+      </div>
+    </div>
+
+    <!-- 列表 -->
+    <div class="ledger-list" id="ledger-list">
+      <div class="ledger-empty" id="ledger-empty">还没有记录，添加第一笔吧 ✍️</div>
+    </div>
+  </div>
+</div><!-- /view-ledger -->
+
 <script>
 const days = [
   {
@@ -650,6 +802,83 @@ function buildDays(data) {
 
 // 初始化页面
 buildDays(days);
+
+// ── 主 Tab 切换 ──
+function switchMain(view) {
+  document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.main-view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + view).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ── 记账逻辑 ──
+const CAT_ICON = { traffic:'🚄', hotel:'🏨', food:'🍜', sight:'🏯', other:'📦' };
+const CAT_LABEL = { traffic:'交通', hotel:'住宿', food:'餐饮', sight:'景点', other:'其他' };
+const CAT_COLOR = { traffic:'cat-traffic', hotel:'cat-hotel', food:'cat-food', sight:'cat-sight', other:'cat-other' };
+
+let entries = JSON.parse(localStorage.getItem('shanxi_ledger') || '[]');
+
+function saveEntries() {
+  localStorage.setItem('shanxi_ledger', JSON.stringify(entries));
+}
+
+function addEntry() {
+  const desc = document.getElementById('led-desc').value.trim();
+  const amount = parseFloat(document.getElementById('led-amount').value);
+  const cat = document.getElementById('led-cat').value;
+  const day = document.getElementById('led-day').value;
+  const payer = document.getElementById('led-payer').value;
+  if (!desc || isNaN(amount) || amount <= 0) { alert('请填写描述和金额'); return; }
+  entries.push({ id: Date.now(), desc, amount, cat, day, payer });
+  saveEntries();
+  document.getElementById('led-desc').value = '';
+  document.getElementById('led-amount').value = '';
+  renderLedger();
+}
+
+function deleteEntry(id) {
+  entries = entries.filter(e => e.id !== id);
+  saveEntries();
+  renderLedger();
+}
+
+function renderLedger() {
+  const total = entries.reduce((s, e) => s + e.amount, 0);
+  document.getElementById('led-total').textContent = '¥' + total.toFixed(0);
+  document.getElementById('led-per').textContent = '¥' + (total / 2).toFixed(0);
+  document.getElementById('led-count').textContent = entries.length;
+
+  const list = document.getElementById('ledger-list');
+  const empty = document.getElementById('ledger-empty');
+  if (entries.length === 0) { empty.style.display = 'block'; list.innerHTML = ''; list.appendChild(empty); return; }
+  empty.style.display = 'none';
+
+  // 按 Day 分组
+  const groups = {};
+  const dayOrder = ['行前','Day 1','Day 2','Day 3','Day 4'];
+  entries.forEach(e => { if (!groups[e.day]) groups[e.day] = []; groups[e.day].push(e); });
+
+  let html = '';
+  dayOrder.forEach(day => {
+    if (!groups[day]) return;
+    const sub = groups[day].reduce((s,e) => s + e.amount, 0);
+    html += `<div class="ledger-group-title">${day} <span style="float:right;font-weight:400">¥${sub.toFixed(0)}</span></div>`;
+    groups[day].forEach(e => {
+      html += `<div class="ledger-item">
+        <div class="ledger-item-cat ${CAT_COLOR[e.cat]}">${CAT_ICON[e.cat]}</div>
+        <div class="ledger-item-info">
+          <div class="ledger-item-desc">${e.desc}</div>
+          <div class="ledger-item-meta">${CAT_LABEL[e.cat]} · ${e.payer} 付</div>
+        </div>
+        <div class="ledger-item-amount">¥${e.amount.toFixed(0)}</div>
+        <button class="ledger-item-del" onclick="deleteEntry(${e.id})">✕</button>
+      </div>`;
+    });
+  });
+  list.innerHTML = html;
+}
+
+renderLedger();
 </script>
 </body>
 </html>
